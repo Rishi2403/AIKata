@@ -8,7 +8,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to add auth token
+// Attach JWT token to every request [cite: 853]
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
@@ -17,17 +17,14 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor for error handling
+// Global error handling for 401 (Unauthorized) [cite: 854]
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
       localStorage.removeItem(STORAGE_KEYS.TOKEN);
       localStorage.removeItem(STORAGE_KEYS.USER);
       window.location.href = '/login';
