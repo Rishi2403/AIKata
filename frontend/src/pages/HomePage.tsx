@@ -6,6 +6,9 @@ import SweetCard from '../components/sweets/SweetCard';
 import SweetModal from '../components/sweets/SweetModal';
 import { Search, Filter, LogOut, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { showSuccess, showError } from '../utils/toast';
+import LoadingSkeleton from '../components/LoadingSkeleton';
 
 export default function HomePage() {
   const { sweets, isLoading, fetchSweets, searchSweets, purchaseSweet } = useSweetsStore();
@@ -31,11 +34,17 @@ export default function HomePage() {
     }
   };
 
-  const handlePurchase = async (quantity: number) => {
-    if (selectedSweet) {
+const handlePurchase = async (quantity: number) => {
+  if (selectedSweet) {
+    try {
       await purchaseSweet(selectedSweet.id, quantity);
+      showSuccess(`Successfully purchased ${quantity} ${selectedSweet.name}!`);
+    } catch (error: any) {
+      showError(error.response?.data?.message || 'Purchase failed');
+      throw error;
     }
-  };
+  }
+};
 
   const handleLogout = () => {
     logout();
@@ -115,11 +124,7 @@ export default function HomePage() {
         </div>
 
         {/* Loading State */}
-        {isLoading && (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-          </div>
-        )}
+        {isLoading && <LoadingSkeleton />}
 
         {/* Sweets Grid */}
         {!isLoading && sweets.length > 0 && (
@@ -152,6 +157,9 @@ export default function HomePage() {
           onPurchase={handlePurchase}
         />
       )}
+
+      {/* Toast Notifications */}
+      <Toaster />
     </div>
   );
 }

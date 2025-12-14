@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/auth.service';
 import { useAuthStore } from '../store/authStore';
 import { Candy, Lock, Mail } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
+import { showError } from '../utils/toast';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,20 +16,22 @@ export default function LoginPage() {
   const setAuth = useAuthStore((state) => state.setAuth);
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-    try {
-      const response = await authService.login(email, password);
-      setAuth(response.user, response.accessToken);
-      navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid credentials');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  try {
+    const response = await authService.login(email, password);
+    setAuth(response.user, response.accessToken);
+    navigate('/');
+  } catch (err: any) {
+    const errorMsg = err.response?.data?.message || 'Invalid credentials';
+    setError(errorMsg);
+    showError(errorMsg);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
@@ -103,8 +107,10 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
-        </div>
+       </div>
       </div>
+      {/* Toast Notifications */}
+      <Toaster />
     </div>
   );
 }

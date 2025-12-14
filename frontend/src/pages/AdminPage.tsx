@@ -9,6 +9,9 @@ import AddSweetModal from '../components/admin/AddSweetModal';
 import EditSweetModal from '../components/admin/EditSweetModal';
 import RestockModal from '../components/admin/RestockModal';
 import { Plus, Home, Shield, TrendingUp, Package, DollarSign } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
+import { showSuccess, showError, showLoading, dismissToast } from '../utils/toast';
+import LoadingSkeleton from '../components/LoadingSkeleton';
 
 export default function AdminPage() {
   const { sweets, fetchSweets } = useSweetsStore();
@@ -29,29 +32,61 @@ export default function AdminPage() {
   }, [user, navigate, fetchSweets]);
 
   const handleAddSweet = async (data: CreateSweetDto) => {
+  const loadingToast = showLoading('Adding sweet...');
+  try {
     await sweetsService.create(data);
     await fetchSweets();
-  };
+    dismissToast(loadingToast);
+    showSuccess('Sweet added successfully!');
+  } catch (error) {
+    dismissToast(loadingToast);
+    showError('Failed to add sweet');
+    throw error;
+  }
+};
 
-  const handleUpdateSweet = async (id: string, data: UpdateSweetDto) => {
+const handleUpdateSweet = async (id: string, data: UpdateSweetDto) => {
+  const loadingToast = showLoading('Updating sweet...');
+  try {
     await sweetsService.update(id, data);
     await fetchSweets();
-  };
+    dismissToast(loadingToast);
+    showSuccess('Sweet updated successfully!');
+  } catch (error) {
+    dismissToast(loadingToast);
+    showError('Failed to update sweet');
+    throw error;
+  }
+};
 
-  const handleDeleteSweet = async (sweet: Sweet) => {
-    if (window.confirm(`Are you sure you want to delete "${sweet.name}"?`)) {
+const handleDeleteSweet = async (sweet: Sweet) => {
+  if (window.confirm(`Are you sure you want to delete "${sweet.name}"?`)) {
+    const loadingToast = showLoading('Deleting sweet...');
+    try {
       await sweetsService.delete(sweet.id);
       await fetchSweets();
+      dismissToast(loadingToast);
+      showSuccess(`${sweet.name} deleted successfully!`);
       setDeletingSweet(null);
+    } catch (error) {
+      dismissToast(loadingToast);
+      showError('Failed to delete sweet');
     }
-  };
+  }
+};
 
-  const handleRestock = async (quantity: number) => {
-    if (restockingSweet) {
+const handleRestock = async (quantity: number) => {
+  if (restockingSweet) {
+    try {
       await sweetsService.restock(restockingSweet.id, quantity);
       await fetchSweets();
+      showSuccess(`Restocked ${restockingSweet.name} with ${quantity} units!`);
+    } catch (error) {
+      showError('Failed to restock sweet');
+      throw error;
     }
-  };
+  }
+};
 
   // Calculate stats
   const totalSweets = sweets.length;
@@ -184,6 +219,9 @@ export default function AdminPage() {
           onRestock={handleRestock}
         />
       )}
+
+      {/* Toast Notifications */}
+      <Toaster />
     </div>
   );
 }
