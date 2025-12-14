@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { type User } from '../types';
+import type { User } from '../types';
 import { STORAGE_KEYS } from '../utils/constants';
 
 interface AuthState {
@@ -19,6 +19,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
 
   setAuth: (user, token) => {
+    console.log('Setting auth with user:', user); // Debug log
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
     set({ user, token, isAuthenticated: true, isLoading: false });
@@ -34,9 +35,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
     const userStr = localStorage.getItem(STORAGE_KEYS.USER);
     
+    console.log('InitAuth - token:', token); // Debug log
+    console.log('InitAuth - userStr:', userStr); // Debug log
+    
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
+        console.log('InitAuth - parsed user:', user); // Debug log
         set({ user, token, isAuthenticated: true, isLoading: false });
       } catch {
         set({ isLoading: false });

@@ -1,34 +1,30 @@
 import api from './api';
-import type { AuthResponse, User } from '../types';
+import type { AuthResponse } from '../types';
 
 export const authService = {
   async register(email: string, password: string): Promise<AuthResponse> {
-    const response = await api.post('/api/auth/register', { email, password });
+    // Register returns just the user
+    await api.post('/api/auth/register', { email, password });
     
-    // Backend returns user without accessToken on register
-    // We need to login after registration
+    // Then login to get the token
     const loginResponse = await api.post('/api/auth/login', { email, password });
     
+    // Backend returns { accessToken, user: { id, email, role } }
     return {
       accessToken: loginResponse.data.accessToken,
-      user: loginResponse.data.user || {
-        id: response.data.id,
-        email: response.data.email,
-        role: response.data.role,
-      },
+      user: loginResponse.data.user,
     };
   },
 
   async login(email: string, password: string): Promise<AuthResponse> {
     const response = await api.post('/api/auth/login', { email, password });
     
+    console.log('Login response:', response.data); // Debug log
+    
+    // Backend returns { accessToken, user: { id, email, role } }
     return {
       accessToken: response.data.accessToken,
-      user: response.data.user || {
-        id: response.data.id,
-        email: response.data.email,
-        role: response.data.role,
-      },
+      user: response.data.user,
     };
   },
 
