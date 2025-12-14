@@ -10,6 +10,9 @@ export interface AuthResponse {
 }
 
 export interface Sweet {
+  description: ReactNode;
+  stock: number;
+  imageUrl: string;
   id: string;
   name: string;
   category: string;

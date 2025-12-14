@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import HomePage from './pages/HomePage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -21,9 +22,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <div className="min-h-screen flex items-center justify-center">
-                <h1 className="text-4xl font-bold">Home Page (Coming Soon)</h1>
-              </div>
+              <HomePage />
             </ProtectedRoute>
           }
         />
