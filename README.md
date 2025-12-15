@@ -854,7 +854,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Rishi Bhattasali**
 
-- GitHub: [@RishiBhattasali](https://github.com/your-username)
+- GitHub: [@Rishi2403](https://github.com/Rishi2403)
 - Email: rishibhattasali@gmail.com
 
 ---
