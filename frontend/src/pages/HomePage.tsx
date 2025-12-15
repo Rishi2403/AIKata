@@ -58,7 +58,7 @@ const handlePurchase = async (quantity: number) => {
       {/* Header */}
       <header className="bg-white shadow-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
               <span className="text-2xl">🍬</span>
             </div>
@@ -69,7 +69,6 @@ const handlePurchase = async (quantity: number) => {
               <p className="text-sm text-gray-600">Welcome, {user?.email}</p>
             </div>
           </div>
-
           <div className="flex items-center gap-3">
             {user?.role === 'ADMIN' && (
               <button
