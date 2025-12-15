@@ -9,6 +9,11 @@ A full-stack web application for managing a sweet shop inventory with user authe
 - **Frontend (Vercel)**: [https://ai-kata.vercel.app](https://ai-kata.vercel.app)
 - **Backend API (Railway)**: [https://aikata-production.up.railway.app](https://aikata-production.up.railway.app)
 
+## 🌐 Sample Credentials
+
+- **User**: Email - user@sweetshop.com    Password - user123
+- **Admin**: Email - admin@sweetshop.com    Password - admin123
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
