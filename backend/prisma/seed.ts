@@ -97,13 +97,18 @@ async function main() {
   ];
 
   for (const sweet of sweets) {
-    const created = await prisma.sweet.create({
-      data: sweet,
+    const created = await prisma.sweet.upsert({
+      where: { name: sweet.name },
+      update: {
+        category: sweet.category,
+        price: sweet.price,
+        quantity: sweet.quantity,
+      },
+      create: sweet,
     });
-    console.log('✅ Created sweet:', created.name);
-  }
 
-  console.log('🎉 Seed completed successfully!');
+    console.log('🍬 Sweet ready:', created.name);
+  }
 }
 
 main()
