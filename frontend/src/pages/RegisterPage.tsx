@@ -4,7 +4,7 @@ import { authService } from '../services/auth.service';
 import { useAuthStore } from '../store/authStore';
 import { Candy, Lock, Mail } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import { showError } from '../utils/toast';
+
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');

@@ -11,7 +11,7 @@ import RestockModal from '../components/admin/RestockModal';
 import { Plus, Home, Shield, TrendingUp, Package, DollarSign } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import { showSuccess, showError, showLoading, dismissToast } from '../utils/toast';
-import LoadingSkeleton from '../components/LoadingSkeleton';
+
 
 export default function AdminPage() {
   const { sweets, fetchSweets } = useSweetsStore();
@@ -21,7 +21,7 @@ export default function AdminPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingSweet, setEditingSweet] = useState<Sweet | null>(null);
   const [restockingSweet, setRestockingSweet] = useState<Sweet | null>(null);
-  const [deletingSweet, setDeletingSweet] = useState<Sweet | null>(null);
+  // const [deletingSweet, setDeletingSweet] = useState<Sweet | null>(null);
 
   useEffect(() => {
     if (user?.role !== 'ADMIN') {
@@ -67,7 +67,6 @@ const handleDeleteSweet = async (sweet: Sweet) => {
       await fetchSweets();
       dismissToast(loadingToast);
       showSuccess(`${sweet.name} deleted successfully!`);
-      setDeletingSweet(null);
     } catch (error) {
       dismissToast(loadingToast);
       showError('Failed to delete sweet');
