@@ -2,7 +2,7 @@
 
 A full-stack web application for managing a sweet shop inventory with user authentication, role-based access control, and inventory management features.
 
-![Sweet Shop Banner](https://via.placeholder.com/1200x300/ec4899/ffffff?text=Sweet+Shop+Management+System)
+![Sweet Shop Banner](screenshots/image.png)
 
 ## 🌐 Live Demo
 
